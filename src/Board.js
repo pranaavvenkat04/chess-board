@@ -14,9 +14,7 @@ const Board = ({ board, onPieceClick, selectedPiece }) => {
             row={rowIndex}
             col={colIndex}
             onPieceClick={onPieceClick}
-            isSelected={
-              selectedPiece && selectedPiece.row === rowIndex && selectedPiece.col === colIndex
-            }
+            isSelected={selectedPiece && selectedPiece.row === rowIndex && selectedPiece.col === colIndex}
           />
         ))
       )}
