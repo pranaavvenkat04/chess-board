@@ -7,24 +7,101 @@ const isOpponentPiece = (board, row, col, turn) => {
     const { piece, row, col } = selectedPiece;
     const turn = piece === piece.toUpperCase() ? 'white' : 'black';
   
-    // Validate moves based on piece type
+    // Validate based on piece type
+    let valid = false;
     switch (piece.toLowerCase()) {
       case 'p':
-        return isValidPawnMove(board, row, col, destRow, destCol, turn);
+        valid = isValidPawnMove(board, row, col, destRow, destCol, turn);
+        break;
       case 'r':
-        return isValidRookMove(board, row, col, destRow, destCol);
+        valid = isValidRookMove(board, row, col, destRow, destCol);
+        break;
       case 'n':
-        return isValidKnightMove(row, col, destRow, destCol);
+        valid = isValidKnightMove(row, col, destRow, destCol);
+        break;
       case 'b':
-        return isValidBishopMove(board, row, col, destRow, destCol);
+        valid = isValidBishopMove(board, row, col, destRow, destCol);
+        break;
       case 'q':
-        return isValidQueenMove(board, row, col, destRow, destCol);
+        valid = isValidQueenMove(board, row, col, destRow, destCol);
+        break;
       case 'k':
-        return isValidKingMove(row, col, destRow, destCol);
+        valid = isValidKingMove(row, col, destRow, destCol);
+        break;
       default:
         return false;
     }
+  
+    if (!valid) return false;
+  
+    // Simulate the move and check if it leaves the king in check
+    const newBoard = board.map((r) => [...r]);
+    newBoard[row][col] = ''; // Remove the piece from the original position
+    newBoard[destRow][destCol] = piece; // Place the piece in the new position
+  
+    return !isKingInCheck(newBoard, turn);
   };
+
+  export const isKingInCheck = (board, turn) => {
+    const king = turn === 'white' ? 'K' : 'k';
+    let kingPosition = null;
+  
+    // Locate the king
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (board[row][col] === king) {
+          kingPosition = { row, col };
+          break;
+        }
+      }
+    }
+  
+    if (!kingPosition) {
+      console.error("King not found for turn:", turn);
+      return false; // Safety check if king is not found (shouldn't happen in a valid game)
+    }
+    console.log("King position:", kingPosition);
+  
+    // Check if any opponent piece can attack the king
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        const piece = board[row][col];
+        if (piece && ((turn === 'white' && piece === piece.toLowerCase()) || (turn === 'black' && piece === piece.toUpperCase()))) {
+          console.log("Checking opponent piece:", { piece, row, col });
+          if (isValidMove(board, { piece, row, col }, kingPosition.row, kingPosition.col)) {
+            console.log(`King is under attack by ${piece} at (${row}, ${col})`);
+            return true; // King is under attack
+          }
+        }
+      }
+    }
+  
+    return false; // King is safe
+  };
+
+  
+  export const isCheckmate = (board, turn) => {
+    if (!isKingInCheck(board, turn)) return false; // Not check, the king is safe
+  
+    // Check all possible moves for the current player
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        const piece = board[row][col];
+        if (piece && ((turn === 'white' && piece === piece.toUpperCase()) || (turn === 'black' && piece === piece.toLowerCase()))) {
+          for (let destRow = 0; destRow < board.length; destRow++) {
+            for (let destCol = 0; destCol < board[destRow].length; destCol++) {
+              if (isValidMove(board, { piece, row, col }, destRow, destCol)) {
+                return false; // Found a move that gets out of check
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    return true; // No valid moves left, checkmate
+  };
+
   
   // Sample validation for a pawn
   const isValidPawnMove = (board, row, col, destRow, destCol, turn) => {

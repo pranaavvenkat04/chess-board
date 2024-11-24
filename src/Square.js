@@ -2,12 +2,14 @@
 import React from 'react';
 import pieceImages from './pieceImages';
 
-const Square = ({ piece, row, col, onPieceClick, isSelected }) => {
+const Square = ({ piece, row, col, onPieceClick, isSelected, isInCheck }) => {
   const isDark = (row + col) % 2 === 1;
 
   return (
     <div
-      className={`square ${isDark ? 'dark' : 'light'} ${isSelected ? 'selected' : ''}`}
+      className={`square ${isDark ? 'dark' : 'light'} ${isSelected ? 'selected' : ''} ${
+        isInCheck ? 'in-check' : ''
+      }`}
       onClick={() => onPieceClick(row, col)}
     >
       {piece && (
