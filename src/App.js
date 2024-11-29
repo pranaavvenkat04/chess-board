@@ -91,7 +91,20 @@ const App = () => {
 
       // Handle castling and other special moves here...
 
-      
+      // Update castling state
+      const updatedCastlingState = { ...castlingState };
+      if (selectedPiece.piece === 'K') updatedCastlingState.whiteKingMoved = true;
+      if (selectedPiece.piece === 'k') updatedCastlingState.blackKingMoved = true;
+      if (selectedPiece.piece === 'R' && selectedPiece.row === 7) {
+        if (selectedPiece.col === 0) updatedCastlingState.whiteRookMoved.queenside = true;
+        if (selectedPiece.col === 7) updatedCastlingState.whiteRookMoved.kingside = true;
+      }
+      if (selectedPiece.piece === 'r' && selectedPiece.row === 0) {
+        if (selectedPiece.col === 0) updatedCastlingState.blackRookMoved.queenside = true;
+        if (selectedPiece.col === 7) updatedCastlingState.blackRookMoved.kingside = true;
+      }
+
+      setCastlingState(updatedCastlingState);
       setBoard(newBoard);
       setSelectedPiece(null);
       setTurn(turn === 'white' ? 'black' : 'white');
