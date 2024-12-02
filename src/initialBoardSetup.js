@@ -1,4 +1,5 @@
-// initialBoardSetup.js
+
+//Standard Board
 const initialBoardSetup = [
     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
     ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
@@ -53,7 +54,19 @@ const initialBoardSetup = [
 ];
 */
 
-
+/*
+//Stalemate Board
+const initialBoardSetup = [
+  ['', '', '', '', 'k', '', '', ''],
+  ['', '', '', '', 'P', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', 'K', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+];
+*/
 
 
 export default initialBoardSetup;
