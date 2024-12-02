@@ -140,13 +140,15 @@ img {
 }
 
 .notation-table {
-  width: 250px;
-  height: 400px;
+  width: 275px;
+  height: 398px;
   overflow-y: auto;
   overflow-x: hidden; 
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-left: 20px; 
+  top: 0;
+
 }
 
 .notation-table--title {
