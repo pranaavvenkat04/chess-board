@@ -78,6 +78,7 @@ const App = () => {
 
   const handlePieceClick = (row, col) => {
     if(stalemate) return;
+    if(checkmate) return;
   
     const piece = board[row][col];
   

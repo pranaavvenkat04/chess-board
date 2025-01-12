@@ -1,4 +1,3 @@
-
 //Standard Board
 const initialBoardSetup = [
     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
